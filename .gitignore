@@ -1,0 +1,6 @@
+
+img
+logs
+model_data/yolo4_voc_weights.pth
+model_data/yolo4_weights.pth
+output
