@@ -7,6 +7,10 @@
 
 - [参考](https://github.com/bubbliiiing/yolov4-pytorch)
 
+# 例子
+
+![](./output/test.jpg)
+
 ### 目录
 
 1. [所需环境 Environment](#所需环境)
