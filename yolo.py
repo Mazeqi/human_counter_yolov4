@@ -21,7 +21,7 @@ class YOLO(object):
     _defaults = {
         "model_path": 'logs/Epoch50-Total_Loss103.6921-Val_Loss71.1903.pth',
         "anchors_path": 'model_data/yolo_anchors.txt',
-        "classes_path": 'model_data/coco_classes.txt',
+        "classes_path": 'model_data/person.name',
         "model_image_size" : (416, 416, 3),
         "confidence": 0.5,
         "cuda": True
@@ -141,6 +141,9 @@ class YOLO(object):
         font = ImageFont.truetype(font='model_data/simhei.ttf',size=np.floor(3e-2 * np.shape(image)[1] + 0.5).astype('int32'))
 
         thickness = (np.shape(image)[0] + np.shape(image)[1]) // self.model_image_size[0]
+        print('画面中有{}个人'.format(len(boxes)))
+        font_cn = ImageFont.truetype(font='model_data/simhei.ttf',
+                                  size=np.floor(3e-2 * image.size[1] + 0.5).astype('int32'))
 
         for i, c in enumerate(top_label):
             predicted_class = self.class_names[c]
@@ -173,10 +176,20 @@ class YOLO(object):
                 draw.rectangle(
                     [left + i, top + i, right - i, bottom - i],
                     outline=self.colors[self.class_names.index(predicted_class)])
+
+            show_str = '  画面中有'+str(len(boxes))+'个人  '
+            label_size1 = draw.textsize(show_str, font_cn)
+            print(label_size1)
+            draw.rectangle(
+                [10, 10, 10 + label_size1[0], 10 + label_size1[1]],
+                fill=(255,255,0))
+            draw.text((10,10),show_str,fill=(0, 0, 0), font=font_cn)
+            '''
             draw.rectangle(
                 [tuple(text_origin), tuple(text_origin + label_size)],
                 fill=self.colors[self.class_names.index(predicted_class)])
             #draw.text(text_origin, str(label,'UTF-8'), fill=(0, 0, 0), font=font)
+            '''
             del draw
         return image
 
